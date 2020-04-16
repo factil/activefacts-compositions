@@ -19,8 +19,12 @@ module ActiveFacts
           }
         end
 
-        def initialize compositions, options = {}
-          raise "--graphviz only processes a single composition" if compositions.size > 1
+        def self.compatibility
+          [1, nil]  # one composition of ny kind
+        end
+
+        def initialize constellation, composition, options = {}
+          @constellation = constellation
           @composition = compositions[0]
           @options = options
         end
@@ -128,7 +132,7 @@ END
       end
 
     end
-    publish_generator Doc::Graphviz
+    publish_generator Doc::Graphviz, "Input file for graphvis automated diagram layout"
   end
 end
 

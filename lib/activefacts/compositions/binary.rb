@@ -18,6 +18,10 @@ module ActiveFacts
         {}
       end
 
+      def self.compatibility
+        %i{binary}
+      end
+
       def generate
         super
 
@@ -38,6 +42,6 @@ module ActiveFacts
 
       end
     end
-    publish_compositor(Binary)
+    publish_compositor Binary, "A composition reduced to binary relationships, suitable for object-oriented programming"
   end
 end

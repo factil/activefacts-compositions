@@ -31,10 +31,10 @@ describe "Transform generator from CQL" do
   Dir.mkdir actual_dir unless Dir.exist? actual_dir
   
   it "produces the expected Transform Generation output for Null_Person.cql" do
-    cql_file = TG_CQL_DIR + '/' + 'Null_Person.cql'
+    cql_file = "#{TG_CQL_DIR}/Null_Person.cql"
     options = {}
-    expected_file = expected_dir + '/'+ 'Null_Person.cql'
-    actual_file = actual_dir + '/' + 'Null_Person.cql'
+    expected_file = "#{expected_dir}/Null_Person.cql"
+    actual_file = "#{actual_dir}/Null_Person.cql"
     begin
       expected_text = File.read(expected_file)
     rescue Errno::ENOENT => exception
@@ -45,7 +45,7 @@ describe "Transform generator from CQL" do
     compositor = ActiveFacts::Compositions::Relational.new(vocabulary.constellation, 'Person', {})
     compositor.generate
 
-    output = ActiveFacts::Generators::TransGen.new(compositor.composition, options).generate
+    output = ActiveFacts::Generators::TransGen.new(vocabulary.constellation, compositor.composition, options).generate
 
     File.write(actual_file, output)
 
@@ -58,10 +58,10 @@ describe "Transform generator from CQL" do
   end
   
   it "produces the expected Transform Generation output for Staff_Personnel.cql" do
-    cql_file = TG_CQL_DIR + '/' + 'Staff_Personnel.cql'
+    cql_file = "#{TG_CQL_DIR}/Staff_Personnel.cql"
     options = {}
-    expected_file = expected_dir + '/'+ 'Staff_Personnel_gen.cql'
-    actual_file = actual_dir + '/' + 'Staff_Personnel_gen.cql'
+    expected_file = "#{expected_dir}/Staff_Personnel_gen.cql"
+    actual_file = "#{actual_dir}/Staff_Personnel_gen.cql"
     begin
       expected_text = File.read(expected_file)
     rescue Errno::ENOENT => exception
@@ -72,7 +72,7 @@ describe "Transform generator from CQL" do
     compositor = ActiveFacts::Compositions::Relational.new(vocabulary.constellation, 'Staff_Personnel', {})
     compositor.generate
 
-    output = ActiveFacts::Generators::TransGen.new(compositor.composition, options).generate
+    output = ActiveFacts::Generators::TransGen.new(vocabulary.constellation, compositor.composition, options).generate
 
     File.write(actual_file, output)
 
@@ -85,10 +85,10 @@ describe "Transform generator from CQL" do
   end
 
   it "produces the expected Transform generation output for Staff_Personnel_gen.cql" do
-    cql_file = TG_CQL_DIR + '/' + 'Staff_Personnel_gen.cql'
+    cql_file = "#{TG_CQL_DIR}/Staff_Personnel_gen.cql"
     options = {}
-    expected_file = expected_dir + '/' + 'Staff_Personnel_gen2.cql'
-    actual_file = actual_dir + '/' +'Staff_Personnel_gen2.cql'
+    expected_file = "#{expected_dir}/Staff_Personnel_gen2.cql"
+    actual_file = "#{actual_dir}/Staff_Personnel_gen2.cql"
     begin
       expected_text = File.read(expected_file)
     rescue Errno::ENOENT => exception
@@ -99,7 +99,7 @@ describe "Transform generator from CQL" do
     compositor = ActiveFacts::Compositions::Relational.new(vocabulary.constellation, 'Staff_Personnel_gen', {})
     compositor.generate
 
-    output = ActiveFacts::Generators::TransGen.new(compositor.composition, options).generate
+    output = ActiveFacts::Generators::TransGen.new(vocabulary.constellation, compositor.composition, options).generate
 
     File.write(actual_file, output)
 

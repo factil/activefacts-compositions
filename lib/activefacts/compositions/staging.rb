@@ -24,6 +24,10 @@ module ActiveFacts
         merge(Relational.options)
       end
 
+      def self.compatibility
+        %i{relational}
+      end
+
       def initialize constellation, name, options = {}
         # Extract recognised options:
         @option_cdc = options.delete('cdc')
@@ -161,6 +165,6 @@ module ActiveFacts
 
     end
 
-    publish_compositor(Staging)
+    publish_compositor Staging, "A relational composition augmented with audit attributes for staging data transformations"
   end
 end

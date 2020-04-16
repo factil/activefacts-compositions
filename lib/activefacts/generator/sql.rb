@@ -24,7 +24,8 @@ module ActiveFacts
       include Traits::SQL
       extend Traits::SQL
 
-      def initialize composition, options = {}
+      def initialize constellation, composition, options = {}
+        @constellation = constellation
         @composition = composition
         process_options options
       end
@@ -179,6 +180,6 @@ module ActiveFacts
       end
     end
 
-    publish_generator SQL
+    publish_generator SQL, "Generate a schema in standard SQL-99 using any relational compositor"
   end
 end

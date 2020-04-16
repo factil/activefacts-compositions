@@ -21,9 +21,13 @@ module ActiveFacts
           }
         end
 
-        def initialize compositions, options = {}
-          raise "--ldm only processes a single composition" if compositions.size > 1
-          @composition = compositions[0]
+        def self.compatibility
+          [1, %i{relational}]   # one relational composition
+        end
+
+        def initialize constellation, composition, options = {}
+          @constellation = constellation
+          @composition = [composition].flatten[0]
           @options = options
           @underscore = options.has_key?("underscore") ? (options['underscore'] || '_') : ''
 
@@ -693,6 +697,6 @@ module ActiveFacts
         MM = ActiveFacts::Metamodel unless const_defined?(:MM)
       end
     end
-    publish_generator Doc::LDM
+    publish_generator Doc::LDM, "Logical Data Model documentation in HTML. Use a relational compositor"
   end
 end

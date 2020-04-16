@@ -15,7 +15,7 @@ module ActiveFacts
     module Rails
       class Schema
         MM = ActiveFacts::Metamodel unless const_defined?(:MM)
-        HEADER = "# Auto-generated from CQL, edits will be lost"
+        HEADER = "# Auto-generated (edits will be lost) using:"
         def self.options
           ({
             fks:              ['Boolean', "Generate foreign key definitions"],
@@ -24,7 +24,13 @@ module ActiveFacts
           })
         end
 
-        def initialize composition, options = {}
+        def self.compatibility
+          # REVISIT: We depend on the surrogate option being enabled if any PK is not Rails-friendly
+          [1, %i{relational}]   # one relational composition
+        end
+
+        def initialize constellation, composition, options = {}
+          @constellation = constellation
           @composition = composition
           @options = options
           @option_exclude_fks = [false, 'f', 'n', 'no'].include?(options.delete("fks"))
@@ -56,7 +62,8 @@ module ActiveFacts
           header =
             [
               '#',
-              "# schema.rb auto-generated for #{@composition.name}",
+              "#{HEADER}",
+              "\# #{([File.basename($0)]+ARGV)*' '}",
               '#',
               '',
               "ActiveRecord::Base.logger = Logger.new(STDOUT)",
@@ -205,11 +212,12 @@ module ActiveFacts
           end
 
           valid_parameters = MM::DataType::TypeParameters[type]
+          size_param = valid_parameters && valid_parameters.include?(:precision) ? :precision : :limit
           length_ok = valid_parameters &&
             ![MM::DataType::TYPE_Real, MM::DataType::TYPE_Integer].include?(type) &&
             (valid_parameters.include?(:length) || valid_parameters.include?(:precision))
           scale_ok = length_ok && valid_parameters.include?(:scale)
-          length_option = length_ok && options[:length] ? ", limit: #{options[:length]}" : ''
+          length_option = length_ok && options[:length] ? ", #{size_param}: #{options[:length]}" : ''
           scale_option = scale_ok && options[:scale] ? ", scale: #{options[:scale]}" : ''
           null_option = ", null: #{!options[:mandatory]}"
 
@@ -298,7 +306,7 @@ module ActiveFacts
 
       end
     end
-    publish_generator Rails::Schema
+    publish_generator Rails::Schema, "Generate schema.rb in Ruby for use with ActiveRecord and Rails. Use a relational compositor"
   end
 end
 

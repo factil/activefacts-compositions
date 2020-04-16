@@ -19,7 +19,12 @@ module ActiveFacts
         }
       end
 
-      def initialize composition, options = {}
+      def self.compatibility
+        [nil, nil]
+      end
+  
+      def initialize constellation, composition, options = {}
+        @constellation = constellation
         @composition = composition
         @options = options
       end
@@ -34,10 +39,13 @@ module ActiveFacts
           end
         end
 
-        @composition.validate(&report)
+        Array(@composition).
+        each do |c|
+          c.validate(&report)
+        end
         nil
       end
     end
-    publish_generator Validate
+    publish_generator Validate, "Perform a thorough validation to check that a compositor is working correctly"
   end
 end

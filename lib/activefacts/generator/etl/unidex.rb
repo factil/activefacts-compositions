@@ -15,7 +15,6 @@ module ActiveFacts
   module Generators
     module ETL
       class Unidex
-
         MM = ActiveFacts::Metamodel unless const_defined?(:MM)
         def self.options
           # REVISIT: There's no way to support SQL dialect options here
@@ -29,7 +28,13 @@ module ActiveFacts
           )
         end
 
-        def initialize composition, options = {}
+        def self.compatibility
+          # REVISIT: Remove the dependency on the "persistent" option of the staging compositor.
+          [1, %i{relational}]   # one relational composition
+        end
+
+        def initialize constellation, composition, options = {}
+          @constellation = constellation
           @composition = composition
           @options = options
 
@@ -284,17 +289,17 @@ module ActiveFacts
           when MM::DataType::TYPE_Date
             # Produce an ISO representation that sorts lexically (YYYY-MM-DD)
             # REVISIT: Support search methods here
-            select(composite, lexical_date(col_expr), 'simple', source_field)
+            select(composite, lexical_date(col_expr), 'date', source_field)
 
           when MM::DataType::TYPE_DateTime,
                MM::DataType::TYPE_Timestamp
             # Produce an ISO representation that sorts lexically (YYYY-MM-DD HH:mm:ss)
             # REVISIT: Support search methods here
-            select(composite, lexical_datetime(col_expr), 'simple', source_field)
+            select(composite, lexical_datetime(col_expr), 'datetime', source_field)
 
           when MM::DataType::TYPE_Time
             # Produce an ISO representation that sorts lexically (YYYY-MM-DD HH:mm:ss)
-            select(composite, lexical_time(col_expr), 'simple', source_field)
+            select(composite, lexical_time(col_expr), 'time', source_field)
 
           when MM::DataType::TYPE_Binary
             nil   # No indexing applied
@@ -369,6 +374,6 @@ module ActiveFacts
 
       end
     end
-    publish_generator ETL::Unidex
+    publish_generator ETL::Unidex, "Generate SQL views to populate a Unified Index, steered by Search parameters on the value types"
   end
 end

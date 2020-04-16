@@ -19,7 +19,13 @@ module ActiveFacts
         }
       end
 
-      def initialize composition, options = {}
+      def self.compatibility
+        # REVISIT: This should accept 2 compositions
+        [1, %i{relational}]
+      end
+  
+      def initialize constellation, composition, options = {}
+        @constellation = constellation
         @composition = composition
         @options = options
       end
@@ -139,6 +145,6 @@ module ActiveFacts
         # regenerate_compound_matching(composite.mapping, 0, '') + ";\n"
       end
     end
-    publish_generator TransGen
+    publish_generator TransGen, "Generate a transform between two related fact-based schemas"
   end
 end

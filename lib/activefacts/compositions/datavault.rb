@@ -40,6 +40,10 @@ module ActiveFacts
         })
       end
 
+      def self.compatibility
+        %i{datavault relational}
+      end
+
       def initialize constellation, name, options = {}
         # Extract recognised options:
         datavault_initialize options
@@ -717,6 +721,6 @@ module ActiveFacts
 
     end
 
-    publish_compositor(DataVault)
+    publish_compositor DataVault, "A relational composition suitable for full-history storage along Data Vault lines"
   end
 end

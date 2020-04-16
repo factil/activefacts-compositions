@@ -19,6 +19,10 @@ module ActiveFacts
         }.merge(Compositor.options)
       end
 
+      def self.compatibility
+        %i{relational}
+      end
+
       def initialize constellation, name, options = {}, compositor_name = 'Relational'
         @option_surrogates = options.delete('surrogates')
 
@@ -970,6 +974,6 @@ module ActiveFacts
 
     end
 
-    publish_compositor(Relational)
+    publish_compositor Relational, "A relational composition for operational databases in optimal normal form"
   end
 end

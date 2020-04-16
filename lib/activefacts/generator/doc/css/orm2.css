@@ -1,0 +1,28 @@
+span {
+  font-family: "Helvetica Neue", Helvetica,"Arial Unicode MS", Arial, sans-serif;
+}
+
+.keyword {
+  color: #0000CC;
+  display: inline;
+}
+
+.schema,
+.term {
+  /* Xcolor: #6A0072;   The color used by NORMA */
+  color: #8A0092;
+}
+
+.schema:link, .schema:visited,
+.term:link, .term:visited {
+  color: #8A0092; text-decoration: underline;
+}
+
+.reading {
+  color: #0E5400;
+}
+
+.value {
+  color: #FF990E;
+  display: inline;
+}
