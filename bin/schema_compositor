@@ -72,7 +72,7 @@ class SchemaCompositor
         options.delete(option)
         check_options(action, modes)
         @compositors << [action, modes, option]
-	next
+        next
       end
 
       # Is it a generator?
@@ -81,7 +81,7 @@ class SchemaCompositor
         options.delete(option)
         check_options(action, modes)
         @generators << [action, modes, option]
-	next
+        next
       end
 
       if option == 'help'
