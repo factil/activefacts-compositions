@@ -14,8 +14,8 @@ module ActiveFacts
   module Generators
     module Rails
       module RubyFolderGenerator
-        HEADER = "# Auto-generated (edits will be lost) using:"
-
+        HEADER1 = "# Auto-generated using:"
+        HEADER2 = "# Edits will be lost"
         def warn *a
           $stderr.puts *a
         end
@@ -56,7 +56,7 @@ module ActiveFacts
         def generated_file_exists pathname
           File.open(pathname, 'r') do |existing|
             first_lines = existing.read(1024)     # Make it possible to pass over a magic charset comment
-            if first_lines.length == 0 or first_lines =~ %r{^#{Regexp.quote HEADER}}
+            if first_lines.length == 0 or first_lines =~ %r{^#{Regexp.quote HEADER1}}
               return true
             end
           end

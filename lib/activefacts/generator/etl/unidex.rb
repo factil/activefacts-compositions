@@ -83,6 +83,8 @@ module ActiveFacts
           return nil if composite.mapping.injection_annotation
           return nil if composite.mapping.object_type.is_static
 
+          @drec_column_name = "#{table_name(composite).split('_')[1]}_drec_id"
+
           trace :unidex, "Generating view for #{table_name(composite)}" do
             union =
             composite.mapping.all_member.to_a.sort_by{|m| m.name}.flat_map do |member|
@@ -314,7 +316,7 @@ module ActiveFacts
 
         def field_names
           @field_names ||=
-            %w{Value Phonetic Processing SourceTable SourceField LoadBatchID RecordGUID}.
+            %w{Value Phonetic Processing SourceTable SourceField LoadBatchID DrecID}.
             map{|n| stylise_column_name(n)}
         end
 
@@ -351,7 +353,7 @@ module ActiveFacts
               "'"+safe_table_name(composite)+"'::text",
               "'"+source_field+"'::text",
               nil,
-              nil,
+              "'"+@drec_column_name+"'::text",
             ].zip(field_names).
             map(&:compact).
             map{|a| a * ' AS '}.

@@ -64,8 +64,9 @@ module ActiveFacts
           filename = composite.rails.singular_name+'.rb'
           out = create_if_ok(@option_output, filename)
           return nil unless out
-          out.puts "#{HEADER}\n" +
-            "\# #{([File.basename($0)]+ARGV)*' '}\n\n" +
+          out.puts "#{HEADER1}\n" +
+            "\# #{([File.basename($0)]+ARGV)*' '}\n" +
+            "#{HEADER2}\n\n" +
             model
         ensure
           out.close if out
